@@ -6,6 +6,7 @@ from pycoin.serialize import h2b
 from pycoin.serialize import b2h
 from signmessage import sign_and_verify
 import httplib
+import urllib
 import hashlib
 import random
 
@@ -31,8 +32,9 @@ def test_ew_derivation(self):
     print "signature:" + signature
 
     # http://eternitywall.it/v1/auth/hash/[hash]?account=[account]&signature=[signature]&challenge=[challenge]
-
-    url = "http://eternitywall.it/v1/auth/hash/" + hashvalue + "?account=" + account + "&signature=" + signature + "&challenge=" + challenge;
+    params = { 'account' : account, 'signature' : signature, "challenge" : challenge }
+    url = "http://eternitywall.it/v1/auth/hash/" + hashvalue + "?" + urllib.urlencode(params)
+    
     print url
     conn = httplib.HTTPConnection('eternitywall.it', 80)
     conn.connect()
