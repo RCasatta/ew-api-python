@@ -32,9 +32,15 @@ def test_ew_derivation(self):
     print "signature:" + signature
 
     # http://eternitywall.it/v1/auth/hash/[hash]?account=[account]&signature=[signature]&challenge=[challenge]
+    # for https use https://eternitywall.appspot.com/v1/auth/hash/[hash]?account=[account]&signature=[signature]&challenge=[challenge]
     params = { 'account' : account, 'signature' : signature, "challenge" : challenge }
     url = "http://eternitywall.it/v1/auth/hash/" + hashvalue + "?" + urllib.urlencode(params)
-    
+
+    # returns http code
+    # 400 if bad missing unrecognized parameter
+    # 401 if unauthorized (invalid signature or not existing account)
+    # 200 if OK
+
     print url
     conn = httplib.HTTPConnection('eternitywall.it', 80)
     conn.connect()
